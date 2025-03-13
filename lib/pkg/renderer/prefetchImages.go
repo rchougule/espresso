@@ -52,16 +52,16 @@ func PrefetchImages(ctx context.Context, data map[string]interface{}) map[string
 					var err error
 					if strings.HasPrefix(v, "https://") {
 						duration := time.Since(startTime)
-						fmt.Println("fetching %s image at :: %s", v, duration)
+						fmt.Printf("fetching %s image at :: %s\n", v, duration)
 						dataURI, err = fetchImageAsDataURIFromURL(v)
 						if err != nil {
-							fmt.Println("failed to download image for key %s: %v", k, err)
+							fmt.Printf("failed to download image for key %s: %v\n", k, err)
 							return
 						}
 					}
 
 					if dataURI == "" {
-						fmt.Println("failed to download image for key %s: dataURI is empty", k)
+						fmt.Printf("failed to download image for key %s: dataURI is empty\n", k)
 						mu.Lock()
 						parentData[k] = ""
 						mu.Unlock()
@@ -69,15 +69,15 @@ func PrefetchImages(ctx context.Context, data map[string]interface{}) map[string
 					}
 
 					duration := time.Since(startTime)
-					fmt.Println("fetched %s image data at :: %s", v, duration)
+					fmt.Printf("fetched %s image data at :: %s\n", v, duration)
 
 					mu.Lock()
 					parentData[k] = dataURI
 					mu.Unlock()
-					fmt.Println("replaced image data for key %s at :: %s, error :: %v", k, duration, err)
+					fmt.Printf("replaced image data for key %s at :: %s, error :: %v\n", k, duration, err)
 				}, key, strValue, current.data)
 				if err != nil {
-					fmt.Println("failed to submit task to worker pool: %v", err)
+					fmt.Printf("failed to submit task to worker pool: %v\n", err)
 				}
 			} else if nestedMap, ok := value.(map[string]interface{}); ok {
 				stack = append(stack, stackItem{key: key, data: nestedMap})
@@ -109,7 +109,7 @@ func fetchImageAsDataURIFromURL(url string) (string, error) {
 	startTime := time.Now()
 
 	duration := time.Since(startTime)
-	fmt.Println("fetching %s image at :: %s", url, duration)
+	fmt.Printf("fetching %s image at :: %s\n", url, duration)
 
 	resp, err := http.Get(url)
 	if err != nil {
@@ -117,7 +117,7 @@ func fetchImageAsDataURIFromURL(url string) (string, error) {
 	}
 
 	duration = time.Since(startTime)
-	fmt.Println("fetched %s image data at :: %s", url, duration)
+	fmt.Printf("fetched %s image data at :: %s\n", url, duration)
 
 	defer resp.Body.Close()
 
@@ -140,6 +140,6 @@ func fetchImageAsDataURIFromURL(url string) (string, error) {
 	dataURI := fmt.Sprintf("data:%s;base64,%s", contentType, base64.StdEncoding.EncodeToString(imageBytes))
 
 	duration = time.Since(startTime)
-	fmt.Println("returning %s image data at :: %s", url, duration)
+	fmt.Printf("returning %s image data at :: %s\n", url, duration)
 	return dataURI, nil
 }
