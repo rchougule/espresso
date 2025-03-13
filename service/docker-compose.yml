@@ -1,0 +1,106 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: pdf-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: pdf_templates
+      MYSQL_USER: pdf_user
+      MYSQL_PASSWORD: pdf_password
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d  # This is where init scripts go
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "pdf_user", "-ppdf_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - espresso-network
+  espresso:
+    container_name: espresso
+    build:
+      context: ..
+      dockerfile: ${DOCKERFILE:-service/Dockerfile}
+    ports:
+      - "${PORT:-8081}:8081"
+    volumes:
+      - ./configs:/app/espresso/configs
+      - ../service:/app/espresso/service
+      - ../service/inputfiles:/app/espresso/service/inputfiles
+      - ./output:/app/espresso/service/output
+      - go-modules:/go/pkg/mod
+    user: chrome
+    environment:
+      - GO_ENV=${GO_ENV:-local}
+      - GOPROXY=direct
+      - GOSUMDB=off
+      - AWS_ACCESS_KEY_ID=xxxxx-xxxxx-xxxxx-xxxxx-xxxxx
+      - AWS_SECRET_ACCESS_KEY=xxxxx-xxxxx-xxxxx-xxxxx-xxxxx
+      - AWS_DEFAULT_REGION=us-west-2
+      - AWS_ENDPOINT_URL=http://localstack:4566
+      - AWS_S3_BUCKET_NAME=local-bucket
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://espresso:8081/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - espresso-network
+
+  aws:
+    image: localstack/localstack
+    hostname: localstack
+    container_name: espresso_localstack
+    ports:
+      - 8055:8080
+      - 4566:4566
+    environment:
+      - SERVICES=s3
+      - AWS_S3_ENDPOINT=http://localhost:4566
+      - AWS_ACCESS_KEY_ID=xxxxx-xxxxx-xxxxx-xxxxx-xxxxx
+      - AWS_S3_BUCKET_NAME=local-bucket
+      - AWS_SECRET_ACCESS_KEY=xxxxx-xxxxx-xxxxx-xxxxx-xxxxx
+      - AWS_DEFAULT_REGION=us-west-2
+      - HOSTNAME=localstack
+    restart: unless-stopped
+    volumes:
+      - ./scripts/init-aws.sh:/etc/localstack/init/ready.d/init-aws.sh
+      - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ../service/inputfiles/templates:/templates
+      - ../service/inputfiles/inputPDFs:/inputPDFs
+    networks:
+      - espresso-network
+
+  espresso-ui:
+    build:
+      context: ..
+      dockerfile: ${DOCKERFILE_ESPRESSO_UI:-espresso-ui/Dockerfile}
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://espresso:8081  # Update this to use service name
+      - HOSTNAME=0.0.0.0
+      - NEXT_PUBLIC_SITE_URL=http://localhost:3000
+    depends_on:
+      espresso:
+        condition: service_healthy
+    labels:
+      - "open-browser.url=http://localhost:3000"
+
+networks:
+  espresso-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
+  go-modules:

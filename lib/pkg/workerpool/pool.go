@@ -30,7 +30,7 @@ func Initialize(size int, expiryDuration time.Duration) {
 		ants.WithExpiryDuration(expiryDuration),
 	)
 	if err != nil {
-		fmt.Println("could not initialize worker pool: %v", err)
+		fmt.Printf("could not initialize worker pool: %v\n", err)
 		panic(err)
 	}
 	pool = &WorkerPool{Pool: workerPool}
