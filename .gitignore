@@ -1,0 +1,53 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Dependency directories
+vendor/
+**/vendor/
+
+# Output directory for generated PDFs
+output/
+/service/output/
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# Binary directory
+/bin/
+
+# Binary files in root
+
+
+.netrc
+./cmd
+tmp
+.*rules
+volume
+
+
+## frontend
+/espresso-ui/node_modules
