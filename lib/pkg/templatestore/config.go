@@ -1,6 +1,6 @@
 package templatestore
 
-import "github.com/Zomato/espresso/pdfpack/pkg/s3"
+import "github.com/Zomato/espresso/lib/pkg/s3"
 
 type StorageConfig struct {
 	StorageType   string

@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Zomato/espresso/pdfpack/pkg/workerpool"
+	"github.com/Zomato/espresso/lib/pkg/workerpool"
 )
 
 type stackItem struct {
