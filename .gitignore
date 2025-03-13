@@ -40,9 +40,7 @@ Thumbs.db
 /bin/
 
 # Binary files in root
-/client
-/pdfservice
-/webserver
+
 
 .netrc
 ./cmd

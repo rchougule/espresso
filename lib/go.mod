@@ -1,4 +1,4 @@
-module github.com/Zomato/espresso/pdfpack
+module github.com/Zomato/espresso/lib
 
 go 1.22.4
 
