@@ -70,3 +70,4 @@ help:
 	@echo "  make test     - Run all tests (both lib and service)"
 	@echo "  make test-lib - Run only lib tests"
 	@echo "  make test-service - Run only service tests"
+	@echo " make init	  - Install dependencies"
