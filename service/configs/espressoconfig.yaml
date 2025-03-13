@@ -1,0 +1,45 @@
+template_storage:
+  storage_type: "mysql"
+
+file_storage:
+  storage_type: "disk"
+
+browser:
+  tab_pool: 50
+
+workerpool:
+  worker_count: 6
+  worker_timeout: 310 # milliseconds
+
+s3:
+  endpoint: "http://localstack:4566"
+  debug: false
+  region: "us-west-2"
+  forcePathStyle: true
+  uploaderConcurrency: 5
+  # 5MB chunks
+  uploaderPartSize: 5
+  downloaderConcurrency: 5
+  # 5MB chunks
+  downloaderPartSize: 5242880
+  retryMaxAttempts: 3
+  bucket: "local-bucket"
+  useCustomTransport: false
+
+aws:
+  accessKeyID: "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx"
+  secretAccessKey: "xxxxx-xxxxx-xxxxx-xxxxx-xxxxx"
+  sessionToken: ""
+
+digital_certificates:
+  cert1:
+    cert_filepath: "./inputfiles/certificates/cert.pem"
+    key_filepath: "./inputfiles/certificates/key_pkcs8_encrypted.pem"
+    key_password: "test"
+  cert2:
+    cert_filepath: "./certificates/certificate2.pem"
+    key_filepath: "./certificates/pirvatekey2.key"
+    key_password: "password2"
+
+mysql:
+  dsn: "pdf_user:pdf_password@tcp(mysql:3306)/pdf_templates?parseTime=true"

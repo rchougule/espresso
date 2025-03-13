@@ -50,61 +50,15 @@ This will:
    - Go to http://localhost:3000/generate
    - Select a template
    - Input your JSON data
-   - Choose PDF options:
-     - Margins
-     - Paper size
-     - Orientation
    - Click "Generate PDF"
    - Download or view the generated PDF
 
 3. **Sign PDF**:
    - Go to http://localhost:3000/sign
-   - Upload a PDF
-   - Select signing certificate (configured in espressoconfig.yaml)
-   - Click "Sign PDF"
+   - Generate a PDF
+   - Click "Generate signed PDF"
    - Download the signed PDF
 
-## Testing via API
-
-1. **Create Template**:
-```bash
-curl -X POST http://localhost:8081/templates \
-  -H "Content-Type: application/json" \
-  -d '{
-    "template_name": "Test Template",
-    "template_content": "<html><body><h1>{{.title}}</h1></body></html>",
-    "json_schema": "{\"title\": \"string\"}"
-  }'
-```
-
-2. **Generate PDF**:
-```bash
-curl -X POST http://localhost:8081/generate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "template_id": "template-1-uuid",
-    "content": {"title": "Hello World"},
-    "pdf_params": {
-      "landscape": false,
-      "margin_top": 0.4,
-      "margin_bottom": 0.4
-    }
-  }'
-```
-
-3. **Sign PDF**:
-```bash
-curl -X POST http://localhost:8081/sign \
-  -H "Content-Type: application/json" \
-  -d '{
-    "input_file_path": "path/to/input.pdf",
-    "output_file_path": "path/to/output.pdf",
-    "sign_params": {
-      "sign_pdf": true,
-      "cert_config_key": "cert1"
-    }
-  }'
-```
 
 ## Troubleshooting
 
