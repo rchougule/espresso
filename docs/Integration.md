@@ -468,9 +468,17 @@ defer pdf.Close()
    - Use appropriate image formats and sizes
 
 3. **Security**
-   - Validate all template input
-   - Use secure certificate storage for signing
-   - Implement proper access controls
+   - **Important Security Notice**: This package does not implement input sanitization or validation by default. Services using this package must implement their own security measures. The service implemented around it is a demo service and hosting it directly on a public endpoint is not recommended. If you plan on to host this directly please also include your custom:
+     - Authorisation
+     - Template Input validation (e.g., maximum character length limits to prevent DOS attacks)
+     - HTML content sanitization to prevent XSS and HTML injection attacks
+     - Template validation to prevent template injection attacks
+     - Request size limits to prevent memory exhaustion
+     - Implement proper access controls
+     - Use secure certificate storage for signing
+     - Monitor and log template rendering failures and suspicious patterns
+
+   
 
 ## For More Examples
 

@@ -9,9 +9,8 @@ RUN mkdir -p /app/espresso/configs \
     && mkdir -p /app/espresso/service/inputfiles
 
 # Configure Go to bypass proxy for private repositories
-ENV GOPRIVATE=github.com/Zomato \
-    GOPROXY=direct \
-    GOSUMDB=off \
+# Set ENABLE_UI to false to disable the UI
+ENV GOSUMDB=off \
     GO111MODULE=on \
     ROD_BROWSER_BIN=/usr/bin/chromium \
     ENABLE_UI=true
@@ -24,7 +23,6 @@ COPY service/go.mod service/go.sum ./service/
 RUN cd service && \
     go mod download
 # Download dependencies
-# RUN cd service && go mod download
 
 # Install browser dependencies, Chromium, and netcat
 RUN apt-get update && apt-get install -y \
