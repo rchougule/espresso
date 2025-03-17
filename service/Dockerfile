@@ -23,7 +23,6 @@ COPY service/go.mod service/go.sum ./service/
 RUN cd service && \
     go mod download
 # Download dependencies
-# RUN cd service && go mod download
 
 # Install browser dependencies, Chromium, and netcat
 RUN apt-get update && apt-get install -y \
