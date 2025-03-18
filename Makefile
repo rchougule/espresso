@@ -30,12 +30,10 @@ init:
 	@echo "== pre-commit setup =="
 	git config --unset-all --global core.hooksPath 2>/dev/null || true
 	pre-commit install
-
-
-precommit.rehooks:
 	pre-commit autoupdate
 	pre-commit install --install-hooks
 	pre-commit install --hook-type commit-msg
+
 
 dev:
 	DOCKERFILE=service/Dockerfile \
