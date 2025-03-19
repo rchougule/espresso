@@ -5,39 +5,35 @@ all: dev
 
 init:
 	@echo "== 👩‍🌾 init =="
-	@if [ "$$(uname)" = "Darwin" ]; then \
-		echo "Installing dependencies for macOS..."; \
-		brew install go node pre-commit golangci-lint; \
+	@if command -v brew >/dev/null 2>&1; then \
+		echo "Installing with Homebrew..."; \
+		brew install pre-commit; \
+		brew install golangci-lint; \
 		brew upgrade golangci-lint; \
-	elif [ "$$(uname)" = "Linux" ]; then \
-		echo "Installing dependencies for Linux..."; \
-		echo "Please install these packages using your distribution's package manager:"; \
-		echo "- go (golang)"; \
-		echo "- nodejs"; \
-		echo "- pre-commit"; \
-		echo "- golangci-lint"; \
-		echo "For Ubuntu/Debian: sudo apt-get install golang nodejs"; \
-		echo "For Fedora: sudo dnf install golang nodejs"; \
-		echo "For golangci-lint: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin"; \
-		echo "For pre-commit: pip install pre-commit"; \
+	elif command -v apt-get >/dev/null 2>&1; then \
+		echo "Installing with apt..."; \
+		sudo apt-get update; \
+		sudo apt-get install -y pre-commit; \
+		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin; \
+	elif command -v dnf >/dev/null 2>&1; then \
+		echo "Installing with dnf..."; \
+		sudo dnf install -y pre-commit; \
+		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin; \
+	elif [ "$(shell uname -o 2>/dev/null)" = "Msys" ] || [ "$(shell uname -o 2>/dev/null)" = "Windows_NT" ]; then \
+		echo "Windows detected. Please install manually:"; \
+		echo "- pre-commit: pip install pre-commit"; \
+		echo "- golangci-lint: https://golangci-lint.run/usage/install/#windows"; \
 	else \
-		echo "Installing dependencies for Windows..."; \
-		echo "Please install these packages:"; \
-		echo "- Go from https://golang.org/dl/"; \
-		echo "- Node.js from https://nodejs.org/"; \
-		echo "- pre-commit using pip: pip install pre-commit"; \
-		echo "- golangci-lint from https://golangci-lint.run/usage/install/#windows"; \
+		echo "Unsupported platform. Please install pre-commit and golangci-lint manually."; \
 	fi
 
 	@echo "== pre-commit setup =="
-	pre-commit install || echo "Failed to set up pre-commit. Please install it manually."
+	git config --unset-all --global core.hooksPath 2>/dev/null || true
+	pre-commit install
+	pre-commit autoupdate
+	pre-commit install --install-hooks
+	pre-commit install --hook-type commit-msg
 
-	@echo "== install ginkgo =="
-	go install -mod=mod github.com/onsi/ginkgo/v2/ginkgo
-	go get github.com/onsi/gomega/...
-
-	@echo "== install gomock =="
-	go install github.com/golang/mock/mockgen@v1.6.0
 
 dev:
 	DOCKERFILE=service/Dockerfile \
