@@ -1,11 +1,44 @@
 name: Lint Commit Messages
-on: [pull_request, push]
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
 
 jobs:
   commitlint:
+    name: Lint Commit Messages
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install commitlint
+        run: |
+          npm install --save-dev @commitlint/cli @commitlint/config-conventional
+
+      - name: Lint PR commits
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            # Get all commits in the PR
+            PR_COMMITS=$(git log --format=%H ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }})
+
+            # Check each commit
+            EXIT_CODE=0
+            for COMMIT in $PR_COMMITS; do
+              echo "Checking commit: $COMMIT"
+              COMMIT_MSG=$(git log -1 --pretty=%B $COMMIT)
+              echo "$COMMIT_MSG" | npx commitlint
+              if [ $? -ne 0 ]; then
+                EXIT_CODE=1
+              fi
+            done
+
+            exit $EXIT_CODE
+          fi
