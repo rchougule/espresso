@@ -1,4 +1,4 @@
-module github.com/Zomato/espresso/lib
+module github.com/rchougule/espresso/lib
 
 go 1.22.4
 
