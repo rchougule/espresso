@@ -8,12 +8,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Zomato/espresso/lib/browser_manager"
-	"github.com/Zomato/espresso/lib/certmanager"
-	"github.com/Zomato/espresso/lib/renderer"
-	"github.com/Zomato/espresso/lib/signer"
-	"github.com/Zomato/espresso/lib/templatestore"
-	"github.com/Zomato/espresso/lib/workerpool"
+	"github.com/rchougule/espresso/lib/browser_manager"
+	"github.com/rchougule/espresso/lib/certmanager"
+	"github.com/rchougule/espresso/lib/renderer"
+	"github.com/rchougule/espresso/lib/signer"
+	"github.com/rchougule/espresso/lib/templatestore"
+	"github.com/rchougule/espresso/lib/workerpool"
 	"github.com/spf13/viper"
 
 	"github.com/go-rod/rod/lib/proto"
