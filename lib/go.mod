@@ -3,7 +3,6 @@ module github.com/rchougule/espresso/lib
 go 1.22.4
 
 require (
-	github.com/Zomato/espresso/lib v0.0.0-20250320130812-cb83158c9121
 	github.com/aws/aws-sdk-go-v2 v1.36.3
 	github.com/aws/aws-sdk-go-v2/config v1.29.9
 	github.com/aws/aws-sdk-go-v2/credentials v1.17.62

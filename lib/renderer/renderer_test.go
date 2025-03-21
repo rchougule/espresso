@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Zomato/espresso/lib/browser_manager"
-	"github.com/Zomato/espresso/lib/templatestore"
-	"github.com/Zomato/espresso/lib/workerpool"
 	"github.com/go-rod/rod/lib/proto"
+	"github.com/rchougule/espresso/lib/browser_manager"
+	"github.com/rchougule/espresso/lib/templatestore"
+	"github.com/rchougule/espresso/lib/workerpool"
 	"github.com/stretchr/testify/assert"
 )
 

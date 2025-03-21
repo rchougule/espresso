@@ -12,8 +12,8 @@ import (
 
 	"github.com/Zomato/espresso/lib/templatestore"
 	"github.com/Zomato/espresso/lib/utils"
-	"github.com/Zomato/espresso/service/internal/pkg/httppkg"
-	"github.com/Zomato/espresso/service/internal/service/generateDoc"
+	"github.com/rchougule/espresso/service/internal/pkg/httppkg"
+	"github.com/rchougule/espresso/service/internal/service/generateDoc"
 	"github.com/spf13/viper"
 )
 

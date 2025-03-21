@@ -1,9 +1,9 @@
 package renderer
 
 import (
-	"github.com/Zomato/espresso/lib/browser_manager"
-	"github.com/Zomato/espresso/lib/templatestore"
 	"github.com/go-rod/rod/lib/proto"
+	"github.com/rchougule/espresso/lib/browser_manager"
+	"github.com/rchougule/espresso/lib/templatestore"
 )
 
 type GetHtmlPdfInput struct {

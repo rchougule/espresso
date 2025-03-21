@@ -5,7 +5,7 @@ Espresso library is a high-performance library for generating PDFs from HTML tem
 ## Installation
 
 ```bash
-go get github.com/Zomato/espresso/lib
+go get github.com/rchougule/espresso/lib
 ```
 
 ## Dependencies Setup
@@ -77,8 +77,8 @@ import (
     "context"
     "log"
     "time"
-    "github.com/Zomato/espresso/lib/browser_manager"
-    "github.com/Zomato/espresso/lib/workerpool"
+    "github.com/rchougule/espresso/lib/browser_manager"
+    "github.com/rchougule/espresso/lib/workerpool"
 )
 
 func main() {
@@ -109,8 +109,8 @@ package main
 
 import (
     "context"
-    "github.com/Zomato/espresso/lib/renderer"
-    "github.com/Zomato/espresso/lib/browser_manager"
+    "github.com/rchougule/espresso/lib/renderer"
+    "github.com/rchougule/espresso/lib/browser_manager"
     "github.com/go-rod/rod/lib/proto"
 )
 
@@ -188,7 +188,7 @@ package main
 import (
     "context"
     "io"
-    "github.com/Zomato/espresso/lib/signer"
+    "github.com/rchougule/espresso/lib/signer"
 )
 
 func main() {

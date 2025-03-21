@@ -7,9 +7,9 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/Zomato/espresso/lib/browser_manager"
-	"github.com/Zomato/espresso/lib/templatestore"
 	"github.com/go-rod/rod"
+	"github.com/rchougule/espresso/lib/browser_manager"
+	"github.com/rchougule/espresso/lib/templatestore"
 )
 
 func GetHtmlPdf(ctx context.Context, params *GetHtmlPdfInput, storeAdapter *templatestore.StorageAdapter) (*rod.StreamReader, error) {

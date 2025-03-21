@@ -3,7 +3,7 @@ package pdf_generation
 import (
 	"encoding/json"
 
-	"github.com/Zomato/espresso/service/internal/service/generateDoc"
+	"github.com/rchougule/espresso/service/internal/service/generateDoc"
 )
 
 type GeneratePDFRequest struct {
