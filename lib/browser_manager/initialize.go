@@ -23,6 +23,7 @@ func Init(ctx context.Context, tabPool int) error {
 	launcher := launcher.New().Bin(browserPath).
 		Headless(true).
 		Set("--disable-gpu").
+		Set("--no-sandbox").
 		Set("--no-first-run").
 		Set("--no-default-browser-check").
 		Set("--disable-infobars").
